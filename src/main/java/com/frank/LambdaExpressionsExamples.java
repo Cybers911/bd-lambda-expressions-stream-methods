@@ -18,15 +18,34 @@ public class LambdaExpressionsExamples {
         setup();      // Perform start of main processing
 
         System.out.println("\n-------- Display elements in a List ---------");
+        //List has its own version of the forEach method, works jus like the Stream forEach()
+        //The List forEach() uses iterators to traverse the List 
+            //You may safty add or remove elements during iterations in the Lambd expression
+            // without getting a ConcurrentModificationException
+        
+        //The order in which elements are iterated is predictable , sequence
+        //A little faster
 
 
-        names.forEach( (aName) -> {System.out.println("Name: " + aName);});  // List version of forEach()
+
+        //the mabda expresion has the parameter (aName) is passed to the lambda expression
+        names.forEach( (aName) -> {System.out.println("Name: " + aName);});// List version of forEach()
+        System.out.println("\n-------- Display elements in a Stream ---------");
+        names.stream().forEach( (aName) -> {System.out.println("Name: " + aName);});//Stream Version of forEach()
+
+            //Java method of forEach with the same parameters:
+                /*for (String aName : names) {
+                    System.out.println("Name: " + aName);
+                }*/
+
+        //Map process elements from a collections and adding to another collections thats a map()
 
         /***************************************************************************************
          * stream().map() Stream Interface function
          **************************************************************************************/
         System.out.println("\n-------- Showing first initials   ---------");
-
+        //Show the first initialsof evey name, creating a list of first initials from a list of naames
+        //from a collection list to a list of strings
         List<String> firstInitials = names.stream().map((aName) -> {return (aName.substring(0,1));})
                 .collect(Collectors.toList());
 
@@ -36,6 +55,7 @@ public class LambdaExpressionsExamples {
          * stream().filter() Stream Interface function
          **************************************************************************************/
         System.out.println("\n-------- Removing Frank from List ---------");
+
 
         List<String> noFrank = names.stream().filter(aName -> {return (!aName.equals("Frank"));})
                                              .collect(Collectors.toList());
@@ -50,7 +70,8 @@ public class LambdaExpressionsExamples {
         System.out.println("Values in numList ArrayList: ");
         numList.forEach( (aNum) -> {System.out.println("Value in List: " + aNum);});
 
-        List<Integer> divBy3 = numList.stream().filter((aNum) -> {return (aNum % 3 == 0 ? true : false); }).collect(Collectors.toList());
+        List<Integer> divBy3 = numList.stream().filter((aNum) -> {return (aNum % 3 == 0 ? true : false); })
+                .collect(Collectors.toList());
 
         divBy3.forEach( (aNum) -> {System.out.println("\tnumber divisible by 3: " + aNum);});
 
@@ -67,6 +88,8 @@ public class LambdaExpressionsExamples {
 
         /***************************************************************************************
          * Arrays.reduce() Arrays method
+         * Since Stream method can only be applied to collection class objects
+         * Java create a set of equivalent Stream.Arrays.stream() methods to use with a simple Array
          **************************************************************************************/
         System.out.println("\n-------- Using Arrays.reduce() to sum an array   ---------");
 
